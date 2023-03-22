@@ -22,20 +22,17 @@ class GptChatController extends Controller
     {
         $question = $request->get('question');
 
-        $text = $this->openAIService->sendToChat($question);
+        $answer = $this->openAIService->sendToChat($question);
 
-        return redirect()->back()->with([
-            'text' => $text,
-            'question' => $question,
-        ]);
+        return redirect()->back()->with(compact('answer', 'question'));
     }
 
     public function createImage(Request $request): RedirectResponse
     {
         $text = $request->get('text');
 
-        $imageUrl = $this->openAIService->createImage($text);
+        $images = $this->openAIService->createImages($text);
 
-        return redirect($imageUrl);
+        return redirect()->back()->with(compact('text', 'images'));
     }
 }

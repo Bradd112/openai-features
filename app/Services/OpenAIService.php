@@ -21,17 +21,17 @@ class OpenAIService
         return $result['choices'][0]['message']['content'];
     }
 
-    public function createImage(string $input): string
+    public function createImages(string $input): array
     {
         $inputInEnglish = $this->sendToChat("Translate this to English: {$input}");
 
         $response = OpenAI::images()->create([
             'prompt' => $inputInEnglish,
-            'n' => 1,
+            'n' => 4,
             'size' => '1024x1024',
-            'response_format' => 'url',
+            'response_format' => 'b64_json',
         ]);
 
-        return $response->data[0]->url;
+        return $response->data;
     }
 }
